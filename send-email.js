@@ -6,8 +6,11 @@ const cors = require('cors');
 const app = express();
 const upload = multer();
 
+const apiDataRouter = require('./api-data');
+
 app.use(cors());
 app.use(express.json());
+app.use('/api', apiDataRouter);
 
 app.post('/api/send-email', upload.single('file'), async (req, res) => {
     const { email } = req.body;
@@ -47,4 +50,4 @@ app.post('/api/send-email', upload.single('file'), async (req, res) => {
     }
 });
 
-app.listen(3001, () => console.log('Servidor de email en puerto 3001')); 
+app.listen(3001, () => console.log('Servidor de email en puerto 3001'));
