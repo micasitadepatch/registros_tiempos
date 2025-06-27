@@ -1,4 +1,4 @@
-// Cargar empleados al inicio
+// Cargar empleados al inicio desde backend
 async function cargarEmpleados() {
     try {
         const select = document.getElementById('empleado');
@@ -9,33 +9,30 @@ async function cargarEmpleados() {
             select.remove(1);
         }
 
-        // Intentar cargar desde localStorage primero
+        // Cargar empleados desde backend
         let empleados = [];
-        const empleadosGuardados = localStorage.getItem('employees');
-
-        if (empleadosGuardados) {
-            const data = JSON.parse(empleadosGuardados);
-
-            // Manejar diferentes formatos para retrocompatibilidad
-            if (Array.isArray(data)) {
-                // Migrar formato antiguo a nuevo formato
-                const nuevoFormato = { employees: data };
-                localStorage.setItem('employees', JSON.stringify(nuevoFormato));
-                empleados = data;
-            } else if (data.employees && Array.isArray(data.employees)) {
+        try {
+            const res = await fetch('/api/data/empleados');
+            const data = await res.json();
+            if (data && Array.isArray(data.employees)) {
                 empleados = data.employees;
             }
+        } catch (e) {
+            console.error('Error al obtener empleados del backend:', e);
         }
 
-        // Si no hay empleados en localStorage, inicializar con empleados por defecto
+        // Si no hay empleados, inicializar con empleados por defecto y guardar en backend
         if (empleados.length === 0) {
             empleados = [
                 { id: '1', name: 'Asera' },
                 { id: '2', name: 'Eva' }
             ];
-
             const estructura = { employees: empleados };
-            localStorage.setItem('employees', JSON.stringify(estructura));
+            await fetch('/api/data/empleados', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(estructura)
+            });
         }
 
         // Añadir empleados al select ordenados alfabéticamente
@@ -47,7 +44,6 @@ async function cargarEmpleados() {
                 option.textContent = emp.name;
                 select.appendChild(option);
             });
-
     } catch (error) {
         console.error('Error al cargar empleados:', error);
         // En caso de error, añadir empleados por defecto
@@ -150,11 +146,21 @@ window.calcularTiempoAcumulado = function calcularTiempoAcumulado(empleado, fech
     }
 }
 
-// Cargar fichajes existentes
+// Cargar fichajes existentes desde backend
 async function cargarFichajes() {
     try {
-        const checksStr = localStorage.getItem('fichajes') || '[]';
-        const checks = JSON.parse(checksStr);
+        let checks = [];
+        try {
+            const res = await fetch('/api/data/fichajes');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                checks = data;
+            } else if (data && Array.isArray(data.fichajes)) {
+                checks = data.fichajes;
+            }
+        } catch (e) {
+            console.error('Error al obtener fichajes del backend:', e);
+        }
         const tbody = document.getElementById('registrosBody');
         tbody.innerHTML = '';
 
@@ -220,27 +226,32 @@ async function registrarFichaje(tipo) {
     };
 
     try {
-        // Obtener fichajes del localStorage
-        const checksStr = localStorage.getItem('fichajes') || '[]';
-        const checks = JSON.parse(checksStr);
+        // Obtener fichajes actuales del backend
+        let checks = [];
+        try {
+            const res = await fetch('/api/data/fichajes');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                checks = data;
+            } else if (data && Array.isArray(data.fichajes)) {
+                checks = data.fichajes;
+            }
+        } catch (e) {
+            console.error('Error al obtener fichajes del backend:', e);
+        }
 
         // Añadir nuevo fichaje
         checks.push(nuevoFichaje);
 
-        // Guardar en localStorage
-        localStorage.setItem('fichajes', JSON.stringify(checks));
+        // Guardar en backend
+        await fetch('/api/data/fichajes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(checks)
+        });
 
         // Actualizar la tabla
-        const tbody = document.getElementById('registrosBody');
-        const tiempoAcumulado = calcularTiempoAcumulado(empleado, now, checks);
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${empleado}</td>
-            <td><span class="tipo ${tipo.toLowerCase()}">${tipo}</span></td>
-            <td>${now.toLocaleTimeString('es-ES')}</td>
-            <td>${tiempoAcumulado}</td>
-        `;
-        tbody.insertBefore(tr, tbody.firstChild);
+        cargarFichajes();
 
         // Reproducir un sonido de confirmación
         const audio = new Audio('data:audio/mp3;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tLyBMYXJnZUNvbGxlY3Rpb24ABERJUkEAAAAVAAADZW5jb2RpbmdAZW5jb2RlZCBieSAAQ09NTQAAAAA8AAAAZW5nAFN5bnRoIHBvcCBtdXNpYyBzb3VuZCwgbm90ZSwgdG9uZSwgYmVlcCwgcGluZywgc3ludGg4Yml0AF9QUklWAAAAAQAAAFdNAAAAAAAAAA==');
@@ -265,27 +276,30 @@ async function registrarFichaje(tipo) {
     }
 }
 
-// Función para actualizar contadores de tiempo en vivo
-function actualizarContadoresTiempo() {
+// Función para actualizar contadores de tiempo en vivo (usando backend)
+async function actualizarContadoresTiempo() {
     try {
         const tbody = document.getElementById('registrosBody');
         if (!tbody) return;
 
-        const fichajes = JSON.parse(localStorage.getItem('fichajes') || '[]');
+        let fichajes = [];
+        try {
+            const res = await fetch('/api/data/fichajes');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                fichajes = data;
+            } else if (data && Array.isArray(data.fichajes)) {
+                fichajes = data.fichajes;
+            }
+        } catch (e) {
+            console.error('Error al obtener fichajes del backend:', e);
+        }
         const ahora = new Date();
-
-        console.log('🔄 Actualizando contadores de tiempo...');
-
-        // Recalcular toda la tabla para asegurar consistencia
         const hoy = ahora.toLocaleDateString('es-ES');
         const fichajesHoy = fichajes.filter(check =>
             new Date(check.timestamp).toLocaleDateString('es-ES') === hoy
         );
-
-        // Solo actualizar si hay fichajes hoy
         if (fichajesHoy.length === 0) return;
-
-        // Actualizar cada fila
         const filas = tbody.querySelectorAll('tr');
         filas.forEach(fila => {
             const celdas = fila.querySelectorAll('td');
@@ -294,19 +308,14 @@ function actualizarContadoresTiempo() {
                 const tipoElement = celdas[1].querySelector('.tipo');
                 const horaText = celdas[2].textContent;
                 const tiempoCell = celdas[3];
-
-                // Encontrar el fichaje correspondiente a esta fila
                 const fichajeFila = fichajesHoy.find(f =>
                     f.employee === empleado &&
                     new Date(f.timestamp).toLocaleTimeString('es-ES') === horaText &&
                     f.type === (tipoElement ? tipoElement.textContent : '')
                 );
-
                 if (fichajeFila) {
                     const fechaFichaje = new Date(fichajeFila.timestamp);
                     const tiempoAcumulado = calcularTiempoAcumulado(empleado, fechaFichaje, fichajes);
-
-                    // Solo actualizar si el contenido cambió
                     if (tiempoCell.innerHTML !== tiempoAcumulado) {
                         tiempoCell.innerHTML = tiempoAcumulado;
                         console.log(`✅ Actualizado tiempo para ${empleado}: ${tiempoAcumulado}`);
@@ -319,7 +328,7 @@ function actualizarContadoresTiempo() {
     }
 }
 
-// Función de test para probar el contador de tiempo
+// Función de test para probar el contador de tiempo (solo para desarrollo, mantiene localStorage)
 window.probarContadorTiempo = function () {
     console.log('🧪 === PROBANDO CONTADOR DE TIEMPO ===');
 
@@ -356,9 +365,20 @@ window.probarContadorTiempo = function () {
     console.log('🧪 === FIN PRUEBA ===');
 };
 
-// Función para ver todos los fichajes actuales
-window.verFichajes = function () {
-    const fichajes = JSON.parse(localStorage.getItem('fichajes') || '[]');
+// Función para ver todos los fichajes actuales (solo para desarrollo, mantiene localStorage)
+window.verFichajes = async function () {
+    let fichajes = [];
+    try {
+        const res = await fetch('/api/data/fichajes');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+            fichajes = data;
+        } else if (data && Array.isArray(data.fichajes)) {
+            fichajes = data.fichajes;
+        }
+    } catch (e) {
+        console.error('Error al obtener fichajes del backend:', e);
+    }
     console.log('📊 === FICHAJES ACTUALES ===');
     console.log('Total:', fichajes.length);
     fichajes.forEach((f, i) => {

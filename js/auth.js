@@ -7,70 +7,46 @@ class AuthSystem {
         this.init();
     }
 
-    // Inicializar usuarios por defecto
-    initializeUsers() {
-        // Usuarios correctos del sistema
+    // Inicializar usuarios por defecto y cargar desde backend
+    async initializeUsers() {
         const correctUsers = {
             'asera': {
-                name: 'Asera Jiménez',
-                role: 'employee',
-                password: '123456',
-                fullAccess: false
+                name: 'Asera Jiménez', role: 'employee', password: '123456', fullAccess: false
             },
             'eva': {
-                name: 'Eva Huércano',
-                role: 'admin',
-                password: '090906',
-                fullAccess: true
+                name: 'Eva Huércano', role: 'admin', password: '090906', fullAccess: true
             },
             'admin': {
-                name: 'Juanma',
-                role: 'admin',
-                password: '090906',
-                fullAccess: true
+                name: 'Juanma', role: 'admin', password: '090906', fullAccess: true
             }
         };
-
-        // Cargar usuarios desde localStorage
-        const savedUsers = localStorage.getItem('systemUsers');
-        if (savedUsers) {
-            try {
-                const loadedUsers = JSON.parse(savedUsers);
-                const expectedUsers = ['asera', 'eva', 'admin'];
-                const currentUsers = Object.keys(loadedUsers);
-
-                // Verificar si tenemos usuarios incorrectos o duplicados
-                const hasIncorrectUsers = currentUsers.some(user => !expectedUsers.includes(user)) ||
-                    expectedUsers.some(user => !currentUsers.includes(user)) ||
-                    currentUsers.length !== expectedUsers.length;
-
-                if (hasIncorrectUsers) {
-                    console.log('⚠️ Usuarios incorrectos o duplicados detectados, corrigiendo...');
-                    console.log('   Usuarios encontrados:', currentUsers);
-                    console.log('   Usuarios esperados:', expectedUsers);
-                    this.saveUsers(correctUsers);
-                    return correctUsers;
-                } else {
-                    console.log('✅ Usuarios correctos cargados desde localStorage');
-                    return loadedUsers;
-                }
-            } catch (error) {
-                console.error('Error al cargar usuarios guardados:', error);
-                this.saveUsers(correctUsers);
-                return correctUsers;
-            }
+        let loadedUsers = null;
+        try {
+            const res = await fetch('/api/data/usuarios');
+            loadedUsers = await res.json();
+        } catch (e) {
+            console.error('Error al obtener usuarios del backend:', e);
         }
-
-        // No hay usuarios guardados, crear los correctos
-        console.log('📋 Creando usuarios correctos por primera vez...');
-        this.saveUsers(correctUsers);
-        return correctUsers;
+        if (!loadedUsers || Object.keys(loadedUsers).length === 0) {
+            // Guardar usuarios por defecto en backend
+            await fetch('/api/data/usuarios', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(correctUsers)
+            });
+            return correctUsers;
+        }
+        return loadedUsers;
     }
 
-    // Guardar usuarios en localStorage
-    saveUsers(users = this.userDb) {
+    // Guardar usuarios en backend
+    async saveUsers(users = this.userDb) {
         try {
-            localStorage.setItem('systemUsers', JSON.stringify(users));
+            await fetch('/api/data/usuarios', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(users)
+            });
         } catch (error) {
             console.error('Error al guardar usuarios:', error);
         }
@@ -1000,4 +976,4 @@ setInterval(() => {
             window.authSystem.blockMainInterface();
         }
     }
-}, 5000); 
+}, 5000);
