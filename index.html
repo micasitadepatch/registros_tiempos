@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Fichajes - Mi Casita de Patch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <img src="https://www.micasitadepatch.com/image/logo-micasitadepatch-pe.png" alt="Mi Casitta de Patch"
+                class="logo">
+            <h1>Registros tiempos empleados - Mi Casita de Patch</h1>
+            <p class="current-time" id="current-time">--:--:--</p>
+        </header>
+
+        <nav class="menu-container">
+            <!-- Primera fila -->
+            <button class="menu-btn" data-action="crear-empleado">
+                <i class="fas fa-user-plus"></i>
+                Crear Empleado
+            </button>
+            <button class="menu-btn" data-action="fichaje-manual">
+                <i class="fas fa-edit"></i>
+                Fichaje Manual
+            </button>
+            <button class="menu-btn" data-action="editar-fichajes">
+                <i class="fas fa-pencil-alt"></i>
+                Editar Fichajes
+            </button>
+            <button class="menu-btn" data-action="eliminar-fichajes">
+                <i class="fas fa-trash-alt"></i>
+                Eliminar Fichajes
+            </button>
+            <button class="menu-btn" data-action="ver-fichajes">
+                <i class="fas fa-calendar-alt"></i>
+                Ver Fichajes
+            </button>
+            <button class="menu-btn" data-action="exportar">
+                <i class="fas fa-file-export"></i>
+                Exportar Datos
+            </button>
+            <!-- Segunda fila -->
+            <button class="menu-btn" data-action="imprimir">
+                <i class="fas fa-print"></i>
+                Imprimir Informe
+            </button>
+        </nav>
+
+        <main>
+            <section class="check-form">
+                <div class="user-info">
+                    <span id="currentUser">👤 Usuario: </span>
+                    <button id="logoutBtn" class="btn-logout">
+                        <span style="font-size:1.3em; margin-right:0.5em;">➡️</span>
+                        <span>Cerrar Sesión</span>
+                    </button>
+                </div>
+                <h2>Registrar Fichaje</h2>
+                <form id="fichajeForm">
+                    <div class="form-group">
+                        <label for="empleado">Empleado:</label>
+                        <select id="empleado" name="empleado" required>
+                            <option value="">Selecciona un empleado</option>
+                            <option value="Asera">Asera</option>
+                            <option value="Eva">Eva</option>
+                        </select>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn entrada" onclick="registrarEntrada()">
+                            <svg style="width:1.2em; height:1.2em; margin-right:0.5em; vertical-align:middle;"
+                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 5L8 12L15 19" stroke="#1976d2" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Entrada
+                        </button>
+                        <button type="button" class="btn salida" onclick="registrarSalida()">
+                            <svg style="width:1.2em; height:1.2em; margin-right:0.5em; vertical-align:middle;"
+                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 5L16 12L9 19" stroke="#e63946" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Salida
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="registros">
+                <h2>Registros del Día</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empleado</th>
+                                <th>Tipo</th>
+                                <th>Hora</th>
+                                <th>Tiempo Acumulado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrosBody">
+                            <!-- Los registros se añadirán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <div class="container">
+                <div>
+                    <p class="contact-info">
+                        Mi Casita de Patch - Avda. del Mediterráneo, 153<br>
+                        29730 Rincón de la Victoria, Málaga
+                    </p>
+                    <p class="contact-phone">
+                        Tel: +34 951 936 117 / +34 640 243 542
+                    </p>
+                </div>
+                <img src="https://www.micasitadepatch.com/image/logo-micasitadepatch-pe.png" alt="Mi Casitta de Patch"
+                    class="logo">
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal-overlay login-modal show">
+        <div class="modal login-modal-content">
+            <div class="modal-header">
+                <h3>🔐 Acceso al Sistema</h3>
+                <div class="company-info">
+                    <span>Mi Casita de Patch - Sistema de Fichajes</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsuario">👤 Usuario:</label>
+                        <select id="loginUsuario" required>
+                            <option value="">Seleccionar usuario...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">🔑 Contraseña (6 dígitos):</label>
+                        <input type="password" id="loginPassword" maxlength="6" pattern="[0-9]{6}" placeholder="000000"
+                            required autocomplete="off">
+                        <small>Introduce tu código de 6 dígitos</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-login">🚀 Iniciar Sesión</button>
+                    </div>
+                </form>
+                <div class="login-info">
+                    <p><strong>👑 Administradores:</strong> Acceso completo al sistema</p>
+                    <p><strong>👤 Empleados:</strong> Solo fichajes y consultas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            window.menuManager = new MenuManager();
+        });
+    </script>
+
+    <!-- Script de debug temporal -->
+    <script>
+        // Funciones de debug disponibles en la consola
+        window.debugSistema = function () {
+            console.log('🔍 === DEBUG DEL SISTEMA ===');
+
+            // Verificar empleados
+            const empleadosRaw = localStorage.getItem('employees');
+            console.log('📋 Empleados (raw):', empleadosRaw);
+
+            if (empleadosRaw) {
+                try {
+                    const empleadosData = JSON.parse(empleadosRaw);
+                    if (empleadosData.employees) {
+                        console.log('👥 Empleados registrados:', empleadosData.employees.length);
+                        empleadosData.employees.forEach((emp, index) => {
+                            console.log(`   ${index + 1}. ${emp.name} (ID: ${emp.id})`);
+                        });
+                    } else {
+                        console.log('❌ Formato incorrecto de empleados');
+                    }
+                } catch (e) {
+                    console.error('❌ Error al parsear empleados:', e);
+                }
+            } else {
+                console.log('❌ No hay empleados en localStorage');
+            }
+
+            // Verificar fichajes
+            const fichajesRaw = localStorage.getItem('fichajes');
+            if (fichajesRaw) {
+                try {
+                    const fichajes = JSON.parse(fichajesRaw);
+                    console.log('📊 Fichajes registrados:', fichajes.length);
+                } catch (e) {
+                    console.error('❌ Error al parsear fichajes:', e);
+                }
+            } else {
+                console.log('📊 No hay fichajes registrados');
+            }
+
+            // Verificar selectores
+            const selectores = document.querySelectorAll('select[id*="empleado"], select[id*="Empleado"]');
+            console.log('🎯 Selectores encontrados:', selectores.length);
+            selectores.forEach(select => {
+                console.log(`   - ${select.id}: ${select.options.length} opciones`);
+            });
+
+            console.log('🔍 === FIN DEBUG ===');
+        };
+
+        window.inicializarEmpleados = function () {
+            console.log('🚀 Inicializando empleados por defecto...');
+            const empleadosIniciales = {
+                employees: [
+                    { id: '1', name: 'Asera' },
+                    { id: '2', name: 'Eva' }
+                ]
+            };
+            localStorage.setItem('employees', JSON.stringify(empleadosIniciales));
+            console.log('✅ Empleados inicializados');
+
+            // Actualizar selectores
+            if (window.menuManager && window.menuManager.actualizarTodosLosSelectores) {
+                window.menuManager.actualizarTodosLosSelectores();
+                console.log('✅ Selectores actualizados');
+            }
+        };
+
+        window.limpiarDatos = function () {
+            localStorage.removeItem('employees');
+            localStorage.removeItem('fichajes');
+            console.log('🧹 Datos limpiados');
+        };
+
+        window.probarModal = function (modalName) {
+            console.log('🎭 Probando modal:', modalName);
+            if (window.menuManager && window.menuManager.mostrarModal) {
+                window.menuManager.mostrarModal(modalName);
+
+                // Verificar selectores después de abrir el modal con múltiples checks
+                setTimeout(() => {
+                    console.log('🔍 === VERIFICACIÓN DE SELECTORES EN MODAL ===');
+
+                    // Buscar selectores en todo el documento
+                    const todoSelectores = document.querySelectorAll('select');
+                    console.log('📊 Total de selectores en documento:', todoSelectores.length);
+
+                    // Buscar selectores específicos de empleados
+                    const selectoresEmpleados = document.querySelectorAll('select[id*="empleado"], select[id*="Empleado"]');
+                    console.log('👥 Selectores de empleados encontrados:', selectoresEmpleados.length);
+
+                    // Buscar selectores dentro del modal
+                    const modal = document.querySelector('.modal');
+                    if (modal) {
+                        const selectoresEnModal = modal.querySelectorAll('select');
+                        console.log('🎭 Selectores dentro del modal:', selectoresEnModal.length);
+
+                        selectoresEnModal.forEach((select, index) => {
+                            console.log(`🎯 Selector ${index + 1}:`);
+                            console.log(`   - ID: ${select.id}`);
+                            console.log(`   - Opciones: ${select.options.length}`);
+
+                            for (let i = 0; i < Math.min(select.options.length, 10); i++) {
+                                const option = select.options[i];
+                                console.log(`     ${i + 1}. "${option.value}" -> "${option.text}"`);
+                            }
+
+                            if (select.options.length > 10) {
+                                console.log(`     ... y ${select.options.length - 10} opciones más`);
+                            }
+                        });
+                    } else {
+                        console.log('❌ No se encontró modal en el DOM');
+                    }
+
+                    console.log('🔍 === FIN VERIFICACIÓN ===');
+                }, 500);
+            } else {
+                console.error('❌ MenuManager no está disponible');
+            }
+        };
+
+        window.probarFichajeMultiple = function () {
+            console.log('🗓️ === PROBANDO FICHAJE MÚLTIPLE ===');
+
+            // Abrir el modal de fichaje manual
+            if (window.menuManager && window.menuManager.mostrarModal) {
+                window.menuManager.mostrarModal('fichaje-manual');
+
+                setTimeout(() => {
+                    console.log('🔍 Verificando elementos del formulario...');
+
+                    // Verificar elementos principales
+                    const empleadoSelect = document.getElementById('empleadoManual');
+                    const tipoSelect = document.getElementById('tipoFichaje');
+                    const multipleCheckbox = document.getElementById('multipleDias');
+
+                    console.log('👤 Select empleado:', empleadoSelect ? `${empleadoSelect.options.length} opciones` : '❌ No encontrado');
+                    console.log('📋 Select tipo:', tipoSelect ? `${tipoSelect.options.length} opciones` : '❌ No encontrado');
+                    console.log('☑️ Checkbox múltiple:', multipleCheckbox ? '✅ Encontrado' : '❌ No encontrado');
+
+                    // Verificar elementos de fecha simple
+                    const fechaSimple = document.getElementById('fichajeManualFecha');
+                    const divFechaSimple = document.querySelector('.fecha-simple');
+                    console.log('📅 Fecha simple input:', fechaSimple ? '✅ Encontrado' : '❌ No encontrado');
+                    console.log('📅 Div fecha simple:', divFechaSimple ? `visible: ${divFechaSimple.style.display !== 'none'}` : '❌ No encontrado');
+
+                    // Verificar elementos de fecha múltiple
+                    const fechaInicio = document.getElementById('fichajeManualFechaInicio');
+                    const fechaFin = document.getElementById('fichajeManualFechaFin');
+                    const hora = document.getElementById('fichajeManualHora');
+                    const divFechaMultiple = document.querySelector('.fecha-multiple');
+
+                    console.log('📅 Fecha inicio:', fechaInicio ? '✅ Encontrado' : '❌ No encontrado');
+                    console.log('📅 Fecha fin:', fechaFin ? '✅ Encontrado' : '❌ No encontrado');
+                    console.log('🕐 Hora:', hora ? '✅ Encontrado' : '❌ No encontrado');
+                    console.log('📅 Div fecha múltiple:', divFechaMultiple ? `visible: ${divFechaMultiple.style.display !== 'none'}` : '❌ No encontrado');
+
+                    // Simular activación del checkbox
+                    if (multipleCheckbox) {
+                        console.log('');
+                        console.log('🔄 Activando checkbox múltiples días...');
+                        multipleCheckbox.checked = true;
+
+                        // Disparar evento change
+                        const event = new Event('change', { bubbles: true });
+                        multipleCheckbox.dispatchEvent(event);
+
+                        setTimeout(() => {
+                            console.log('📊 Estado después de activar checkbox:');
+                            console.log('   - Fecha simple visible:', divFechaSimple ? divFechaSimple.style.display !== 'none' : 'N/A');
+                            console.log('   - Fecha múltiple visible:', divFechaMultiple ? divFechaMultiple.style.display !== 'none' : 'N/A');
+
+                            // Llenar algunos campos automáticamente
+                            if (empleadoSelect && empleadoSelect.options.length > 1) {
+                                empleadoSelect.selectedIndex = 1;
+                                console.log('👤 Empleado seleccionado:', empleadoSelect.value);
+                            }
+
+                            if (fechaInicio && fechaFin && hora) {
+                                const hoy = new Date();
+                                const hace3Dias = new Date(hoy);
+                                hace3Dias.setDate(hoy.getDate() - 3);
+                                const ayer = new Date(hoy);
+                                ayer.setDate(hoy.getDate() - 1);
+
+                                // Formatear fechas correctamente para inputs tipo date
+                                const formatearFecha = (fecha) => {
+                                    return fecha.toISOString().split('T')[0];
+                                };
+
+                                fechaInicio.value = formatearFecha(hace3Dias);
+                                fechaFin.value = formatearFecha(ayer);
+                                hora.value = '09:00';
+
+                                console.log('📅 Campos rellenados:');
+                                console.log('   - Desde:', fechaInicio.value);
+                                console.log('   - Hasta:', fechaFin.value);
+                                console.log('   - Hora:', hora.value);
+
+                                // Verificar qué valores están siendo leídos
+                                setTimeout(() => {
+                                    console.log('🔍 Verificando valores después de rellenar:');
+                                    console.log('   - fechaInicio.value:', fechaInicio.value);
+                                    console.log('   - fechaFin.value:', fechaFin.value);
+                                    console.log('   - hora.value:', hora.value);
+                                }, 200);
+                            }
+
+                            console.log('');
+                            console.log('💡 Ahora puedes hacer click en "Registrar Fichaje" para probar');
+                        }, 100);
+                    }
+                }, 600);
+            } else {
+                console.error('❌ MenuManager no está disponible');
+            }
+        };
+
+        // Ejecutar debug automáticamente
+        setTimeout(() => {
+            console.log('🔄 Ejecutando debug automático...');
+            window.debugSistema();
+            console.log('');
+
+        }, 1000);
+    </script>
+</body>
+
+</html>
