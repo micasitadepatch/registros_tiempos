@@ -1535,493 +1535,154 @@ footer .contact-phone {
     margin: 1rem 0;
 }
 
-/* Responsive Design Completo */
+/* --- OPTIMIZACIÓN RESPONSIVE GLOBAL --- */
 
-/* Pantallas extra pequeñas */
+/* Ajustes generales para pantallas pequeñas */
 @media (max-width: 480px) {
-    .menu-container {
-        flex-wrap: wrap;
-        gap: 0.4rem;
-        padding: 0.5rem;
-        justify-content: center;
-    }
-
-    .menu-btn {
-        padding: 0.6rem 0.5rem;
-        font-size: 0.8rem;
-        min-width: 100px;
-        max-width: none;
-        height: 2.8rem;
-        gap: 0.3rem;
-        flex: 1 1 calc(50% - 0.2rem);
-    }
-
-    .menu-btn i {
-        font-size: 0.9rem;
-        width: 0.9rem;
-    }
+  html {
+    font-size: 15px;
+  }
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .container {
+    padding: 0.5rem !important;
+    max-width: 100vw !important;
+  }
+  header, footer {
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0.5rem !important;
+  }
+  .logo {
+    max-width: 120px !important;
+  }
+  h1, h2 {
+    font-size: 1.1rem !important;
+    word-break: break-word;
+  }
+  .menu-container {
+    flex-wrap: wrap !important;
+    gap: 0.2rem !important;
+    padding: 0.2rem !important;
+    max-width: 100vw !important;
+  }
+  .menu-btn {
+    min-width: 90px !important;
+    max-width: 100vw !important;
+    font-size: 0.8rem !important;
+    height: 2.2rem !important;
+    padding: 0.4rem 0.2rem !important;
+    margin: 0.1rem !important;
+  }
+  .check-form, .registros {
+    padding: 0.7rem !important;
+    border-radius: 8px !important;
+  }
+  .table-container, .table-responsive {
+    overflow-x: auto !important;
+    width: 100vw !important;
+  }
+  table, .table {
+    font-size: 0.85rem !important;
+    min-width: 400px !important;
+  }
+  th, td {
+    padding: 0.4rem !important;
+  }
+  .modal, .modal-mensaje-content, .login-modal-content {
+    max-width: 98vw !important;
+    padding: 0.5rem !important;
+    border-radius: 8px !important;
+  }
+  .btn, .btn-login, .btn-primary, .btn-large {
+    min-height: 44px !important;
+    font-size: 1rem !important;
+    padding: 0.7rem 0.5rem !important;
+    width: 100% !important;
+    margin-bottom: 0.3rem !important;
+  }
+  .form-group, .form-actions {
+    margin-bottom: 0.7rem !important;
+    padding: 0.2rem !important;
+  }
+  .empleado-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.3rem !important;
+    padding: 0.5rem !important;
+  }
+  .horas-totales {
+    padding: 0.7rem !important;
+    margin-top: 0.7rem !important;
+  }
 }
 
-/* Dispositivos muy pequeños (teléfonos en vertical) */
-@media (max-width: 576px) {
-    .container {
-        padding: 1rem;
-    }
-
-    header {
-        padding: 0.75rem;
-        margin-bottom: 0.75rem;
-    }
-
-    .logo {
-        max-width: 160px;
-        margin-bottom: 0.5rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    .current-time {
-        font-size: 1.4rem;
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-
-    .current-time .date {
-        border-left: none;
-        border-top: 1px solid var(--color-secondary);
-        padding-left: 0;
-        padding-top: 0.25rem;
-        font-size: 1rem;
-    }
-
-    .modal-overlay {
-        padding: 0.5rem;
-    }
-
-    .modal {
-        width: calc(100vw - 1rem);
-        max-width: calc(100vw - 1rem);
-        max-height: calc(100vh - 1rem);
-        border-radius: 8px;
-    }
-
-    .modal-header {
-        padding: 1rem;
-    }
-
-    .modal-header h3 {
-        font-size: 1.25rem;
-    }
-
-    .modal-body {
-        padding: 1rem;
-        max-height: calc(100vh - 8rem);
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .form-group label {
-        font-size: 0.9rem;
-        margin-bottom: 0.25rem;
-    }
-
-    .form-control,
-    select,
-    input[type="text"],
-    input[type="date"],
-    input[type="datetime-local"],
-    input[type="time"] {
-        padding: 0.6rem 0.8rem;
-        font-size: 1rem;
-    }
-
-    .btn {
-        width: 100%;
-        padding: 0.8rem 1rem;
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .btn+.btn {
-        margin-left: 0;
-        margin-top: 0.5rem;
-    }
-
-    .table th,
-    .table td {
-        padding: 0.5rem;
-        font-size: 0.85rem;
-    }
-
-    .table-responsive {
-        font-size: 0.85rem;
-    }
-
-    .empleado-item {
-        padding: 0.75rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .mensaje {
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        padding: 0.75rem;
-        font-size: 0.9rem;
-    }
-
-    .menu-container {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        padding: 0.5rem;
-        justify-content: center;
-    }
-
-    .menu-btn {
-        padding: 0.75rem 0.75rem;
-        font-size: 0.85rem;
-        min-width: 120px;
-        max-width: none;
-        height: 3rem;
-        gap: 0.4rem;
-        flex: 1 1 calc(50% - 0.25rem);
-    }
-
-    .menu-btn i {
-        font-size: 1rem;
-        width: 1rem;
-    }
-
-    /* Campos de fecha múltiple en móvil */
-    .fecha-multiple {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .fecha-multiple label {
-        margin-top: 0.5rem;
-    }
-}
-
-/* Dispositivos pequeños (teléfonos en horizontal y tablets pequeñas) */
-@media (min-width: 577px) and (max-width: 768px) {
-    .container {
-        padding: 1.5rem;
-    }
-
-    .modal {
-        max-width: 500px;
-    }
-
-    .modal-header {
-        padding: 1.25rem;
-    }
-
-    .modal-body {
-        padding: 1.25rem;
-    }
-
-    .current-time {
-        font-size: 1.6rem;
-        flex-direction: row;
-    }
-
-    .current-time .date {
-        border-left: 2px solid var(--color-secondary);
-        padding-left: 1rem;
-        font-size: 1.1rem;
-    }
-
-    .btn {
-        width: auto;
-        min-width: 120px;
-    }
-
-    .form-group {
-        margin-bottom: 1.25rem;
-    }
-
-    /* Mantener botones en línea para tablets */
-    .menu-container {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        gap: 0.6rem;
-    }
-
-    .menu-btn {
-        min-width: 120px;
-        max-width: 140px;
-        font-size: 0.85rem;
-        padding: 0.75rem 0.6rem;
-        flex-shrink: 0;
-    }
-}
-
-/* Dispositivos medianos (tablets) */
-@media (min-width: 769px) and (max-width: 992px) {
-    .modal {
-        max-width: 600px;
-    }
-
-    .modal-header {
-        padding: 1.5rem;
-    }
-
-    .modal-body {
-        padding: 1.5rem;
-    }
-
-    .current-time {
-        font-size: 1.7rem;
-    }
-
-    .current-time .date {
-        font-size: 1.2rem;
-    }
-}
-
-/* Dispositivos grandes (desktop) */
-@media (min-width: 993px) {
-    .modal {
-        max-width: 700px;
-    }
-
-    .modal-body {
-        max-height: calc(90vh - 6rem);
-    }
-
-    /* Formularios en dos columnas para pantallas grandes */
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
-
-    .form-group.full-width {
-        grid-column: 1 / -1;
-    }
-
-    /* Botones más espaciosos en pantallas grandes */
-    .menu-container {
-        gap: 1rem;
-        max-width: 1600px;
-    }
-
-    .menu-btn {
-        min-width: 160px;
-        max-width: 200px;
-        font-size: 1rem;
-        padding: 1rem 1.25rem;
-        gap: 0.75rem;
-    }
-
-    .menu-btn i {
-        font-size: 1.1rem;
-        width: 1.1rem;
-    }
-}
-
-/* Dispositivos extra grandes (pantallas muy grandes) */
-@media (min-width: 1200px) {
-    .container {
-        max-width: 1400px;
-    }
-
-    .modal {
-        max-width: 800px;
-    }
-
-    .modal-header h3 {
-        font-size: 1.75rem;
-    }
-
-    .current-time {
-        font-size: 2rem;
-    }
-
-    .current-time .date {
-        font-size: 1.3rem;
-    }
-}
-
-/* Orientación horizontal en móviles */
-@media (max-width: 768px) and (orientation: landscape) {
-    .modal-overlay {
-        padding: 0.25rem;
-    }
-
-    .modal {
-        max-height: calc(100vh - 0.5rem);
-    }
-
-    .modal-body {
-        max-height: calc(100vh - 6rem);
-        overflow-y: auto;
-    }
-
-    .current-time {
-        font-size: 1.4rem;
-        flex-direction: row;
-    }
-
-    .current-time .date {
-        border-left: 1px solid var(--color-secondary);
-        padding-left: 0.8rem;
-        font-size: 1rem;
-    }
-}
-
-/* Mejoras para touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .btn {
-        min-height: 44px;
-        padding: 0.75rem 1.5rem;
-    }
-
-    .form-control,
-    select,
-    input {
-        min-height: 44px;
-        font-size: 16px;
-        /* Evita zoom en iOS */
-    }
-
-    .modal-close {
-        min-width: 44px;
-        min-height: 44px;
-    }
-
-    .empleado-item {
-        min-height: 60px;
-        padding: 1rem;
-    }
-}
-
-/* Mejoras de accesibilidad para motion preferences */
-@media (prefers-reduced-motion: reduce) {
-
-    .modal,
-    .modal-overlay,
-    * {
-        transition: none !important;
-        animation: none !important;
-    }
-}
-
-/* Estilos para el botón de eliminar todos los fichajes */
-.btn-large {
+/* Mejoras para tablets */
+@media (min-width: 481px) and (max-width: 900px) {
+  html {
     font-size: 16px;
-    padding: 15px 25px;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
-    transition: all 0.3s ease;
-    animation: pulse-danger 2s infinite;
-    width: 100%;
-    margin: 10px 0;
+  }
+  .container {
+    padding: 1rem !important;
+    max-width: 98vw !important;
+  }
+  .menu-container {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem !important;
+    max-width: 100vw !important;
+  }
+  .menu-btn {
+    min-width: 110px !important;
+    max-width: 48vw !important;
+    font-size: 0.9rem !important;
+    height: 2.5rem !important;
+    padding: 0.6rem 0.4rem !important;
+  }
+  .modal, .modal-mensaje-content, .login-modal-content {
+    max-width: 95vw !important;
+    padding: 1rem !important;
+  }
+  .btn, .btn-login, .btn-primary, .btn-large {
+    min-height: 44px !important;
+    font-size: 1rem !important;
+    padding: 0.8rem 1rem !important;
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+  }
 }
 
-.btn-large:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(220, 53, 69, 0.4);
+/* Mejoras de accesibilidad y touch */
+@media (hover: none) and (pointer: coarse) {
+  .btn, .btn-login, .btn-primary, .btn-large {
+    min-height: 48px !important;
+    font-size: 1.1rem !important;
+  }
+  input, select, textarea {
+    min-height: 44px !important;
+    font-size: 1rem !important;
+  }
 }
 
-@keyframes pulse-danger {
-    0% {
-        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
-    }
-
-    50% {
-        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
-    }
-
-    100% {
-        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
-    }
+/* Forzar scroll horizontal en tablas grandes */
+.table-container, .table-responsive {
+  overflow-x: auto !important;
+  width: 100vw !important;
+}
+table, .table {
+  min-width: 400px !important;
 }
 
-/* Separador de acciones */
-.separador-acciones {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 6px;
+/* Mejoras para modales en móvil */
+@media (max-width: 480px) {
+  .modal, .modal-mensaje-content, .login-modal-content {
+    left: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+  }
 }
 
-.separador-acciones h4 {
-    color: #856404;
-    margin-bottom: 10px;
-    font-size: 18px;
-    text-align: center;
-}
-
-.text-small {
-    font-size: 12px;
-    margin-top: 8px;
-    text-align: center;
-}
-
-.text-muted {
-    color: #6c757d;
-}
-
-/* Estilos mejorados para el formulario de crear empleado */
-.empleado-info {
-    flex: 1;
-}
-
-.empleado-nombre {
-    font-weight: 600 !important;
-    color: #333 !important;
-    margin-bottom: 4px;
-}
-
-.empleado-rol {
-    font-size: 0.85em;
-    color: #666;
-}
-
-.form-group small {
-    display: block;
-    margin-top: 4px;
-    font-size: 0.8em;
-    color: #666;
-    font-style: italic;
-}
-
-.form-actions {
-    margin-top: 1.5rem;
-    text-align: center;
-    border-top: 1px solid #e9ecef;
-    padding-top: 1.5rem;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    border: none;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-    font-size: 1rem;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #0056b3, #004085);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
-}
-
-.btn-primary i {
-    margin-right: 8px;
-}
+/* --- FIN OPTIMIZACIÓN RESPONSIVE GLOBAL --- */
