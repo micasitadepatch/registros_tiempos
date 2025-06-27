@@ -170,6 +170,20 @@ async function cargarFichajes() {
             new Date(check.timestamp).toLocaleDateString('es-ES') === hoy
         );
 
+        if (fichajesHoy.length === 0) {
+            // Si no hay registros, mostrar mensaje amigable
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.colSpan = 4;
+            td.style.textAlign = 'center';
+            td.style.color = '#b2466d';
+            td.style.fontWeight = 'bold';
+            td.textContent = 'No hay registros para hoy.';
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            return;
+        }
+
         // Mostrar fichajes ordenados por fecha descendente
         fichajesHoy.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
             .forEach(check => {

@@ -2,8 +2,8 @@
 class AuthSystem {
     constructor() {
         this.currentUser = null;
-        this.userDb = this.initializeUsers();
         this.sessionKey = 'miCasitaPatch_session';
+        this.userDb = {};
         this.init();
     }
 
@@ -34,8 +34,10 @@ class AuthSystem {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(correctUsers)
             });
+            this.userDb = correctUsers;
             return correctUsers;
         }
+        this.userDb = loadedUsers;
         return loadedUsers;
     }
 
@@ -53,7 +55,8 @@ class AuthSystem {
     }
 
     // Inicializar sistema
-    init() {
+    async init() {
+        await this.initializeUsers();
         this.loadUserList();
         this.bindEvents();
         this.checkExistingSession();
