@@ -1,94 +1,103 @@
-# Sistema de Fichajes - Mi Casita de Patch
+# Sistema de Fichajes
 
-## Requisitos
+Una aplicación web simple para el registro de horas de trabajo, con autenticación de usuarios y exportación de datos.
 
-- Node.js (<https://nodejs.org/>)
-- Navegador web moderno (Chrome, Edge, Firefox, etc.)
+## Características
 
-## Estructura del proyecto
+- Registro de entrada y salida de empleados.
+- Autenticación de usuarios basada en JWT (JSON Web Tokens).
+- Cálculo automático de las horas trabajadas.
+- Exportación de informes de fichajes por correo electrónico.
+- Interfaz de usuario limpia y sencilla.
 
-```
-www/                # Carpeta principal del frontend (abre index.html aquí)
-send-email.js       # Backend Node.js para enviar emails con adjuntos
-```
+## Stack Tecnológico
 
-## Instalación y primer uso
-
-### 1. Copia el proyecto
-
-Copia la carpeta `www` y el archivo `send-email.js` a tu nuevo PC.
-
-### 2. Instala Node.js
-
-Descarga e instala Node.js desde [nodejs.org](https://nodejs.org/).
-
-### 3. Instala las dependencias del backend
-
-Abre una terminal en la carpeta donde está `send-email.js` (por ejemplo, dentro de `www`):
-
-```bash
-cd ruta/del/proyecto/www
-npm install express nodemailer multer cors
-```
-
-### 4. Configura el backend SMTP
-
-Edita el archivo `send-email.js` y pon tus datos SMTP:
-
-```
-host: 'smtp.tu-servidor.com', // Ejemplo: smtp.gmail.com, smtp.ionos.es, etc.
-port: 465, // O 587 según tu proveedor
-secure: true, // true para 465, false para 587
-auth: {
-  user: 'TU_EMAIL', // Tu email real
-  pass: 'TU_PASSWORD' // Tu contraseña o app password
-}
-```
-
-**Ejemplo para Gmail:**
-
-```
-host: 'smtp.gmail.com',
-port: 465,
-secure: true,
-auth: {
-  user: 'tucorreo@gmail.com',
-  pass: 'tu_app_password'
-}
-```
-
-### 5. Arranca el backend
-
-En la misma carpeta que `send-email.js`:
-
-```bash
-node send-email.js
-```
-
-Verás:
-
-```
-Servidor de email en puerto 3001
-```
-
-### 6. Abre el frontend
-
-- Abre el archivo `www/index.html` en tu navegador.
-- O usa una extensión como Live Server de VSCode para abrir la carpeta `www`.
-
-### 7. ¡Listo
-
-- Usa la web normalmente.
-- El envío de emails funcionará desde el formulario de exportar por email.
+- **Frontend:** HTML5, CSS3, JavaScript (ES6+)
+- **Backend:** Node.js, Express.js
+- **Base de Datos:** SQLite
+- **Autenticación:** JSON Web Token (`jsonwebtoken`)
+- **Envío de Emails:** Nodemailer
 
 ---
 
-## Notas
+## Instalación y Puesta en Marcha
 
-- Si el backend está en otro PC o servidor, cambia la URL en el fetch del frontend (`http://localhost:3001/api/send-email`) por la IP o dominio correspondiente.
-- Si usas Gmail, debes crear una contraseña de aplicación (no tu contraseña normal).
-- Si tienes dudas sobre la configuración SMTP, consulta la documentación de tu proveedor o pide ayuda.
+Sigue estos pasos para configurar y ejecutar el proyecto en tu entorno local.
+
+### 1. Prerrequisitos
+
+- [Node.js](https://nodejs.org/) (versión 14 o superior)
+- [Git](https://git-scm.com/)
+
+### 2. Clonar el Repositorio
+
+```bash
+git clone <URL-DEL-REPOSITORIO>
+cd registros_tiempos
+```
+
+### 3. Instalar Dependencias
+
+Instala todas las dependencias del backend definidas en `package.json`.
+
+```bash
+npm install
+```
+
+### 4. Configurar Variables de Entorno
+
+Crea un archivo `.env` en la raíz del proyecto. Puedes copiar el archivo de ejemplo `env.example` para empezar.
+
+```bash
+cp .env.example .env
+```
+
+Ahora, abre el archivo `.env` y rellena los valores correspondientes:
+
+```
+# Puerto para el servidor de la API
+PORT=3000
+
+# Secreto para firmar los JWT
+JWT_SECRET=tu_secreto_super_secreto
+
+# Configuración del servidor de correo (SMTP)
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=tu_email@example.com
+SMTP_PASS=tu_contraseña
+```
+
+**Importante:** El archivo `.env` contiene información sensible y **no debe** ser subido al repositorio de Git.
+
+### 5. Inicializar la Base de Datos
+
+Este comando creará el archivo `fichajes.db` (si no existe) y poblará las tablas con datos iniciales.
+
+```bash
+npm run seed
+```
+
+### 6. Iniciar el Servidor
+
+Ejecuta el servidor en modo de desarrollo. El servidor se reiniciará automáticamente cuando detecte cambios en los archivos.
+
+```bash
+npm run dev
+```
+
+El backend estará escuchando en el puerto definido en tu archivo `.env` (por defecto, `http://localhost:3000`).
+
+### 7. Abrir el Frontend
+
+Simplemente abre el archivo `index.html` en tu navegador web.
 
 ---
 
-**¡Disfruta tu sistema de fichajes y exportación profesional!**
+## Scripts Disponibles
+
+Dentro de `package.json`, puedes encontrar los siguientes scripts:
+
+- `npm start`: Inicia el servidor en modo producción.
+- `npm run dev`: Inicia el servidor en modo desarrollo con `nodemon`.
+- `npm run seed`: Ejecuta el script de inicialización de la base de datos.

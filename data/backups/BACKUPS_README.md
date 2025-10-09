@@ -15,34 +15,34 @@ data/backups/
 - **Origen**: localStorage del navegador
 - **Formato**: Archivos JSON
 - **Contenido**:
-  - Empleados registrados
-  - Fichajes y horarios
-  - Configuraciones del sistema
+    - Empleados registrados
+    - Fichajes y horarios
+    - Configuraciones del sistema
 - **Activación**:
-  - Manual: `escribir(13)` en consola
-  - Automático: Cada vez que se modifican datos importantes (máximo cada 5 min)
+    - Manual: `escribir(13)` en consola
+    - Automático: Cada vez que se modifican datos importantes (máximo cada 5 min)
 
 ### 🌐 Backup del Sistema (`sistema/`)
 
 - **Origen**: Proyecto completo
 - **Formato**: Copia de carpetas y archivos
 - **Contenido**:
-  - Archivos HTML, CSS, JavaScript
-  - Configuraciones y versiones
-  - Menú interactivo y funciones
-  - Documentación y backups previos
+    - Archivos HTML, CSS, JavaScript
+    - Configuraciones y versiones
+    - Menú interactivo y funciones
+    - Documentación y backups previos
 - **Activación**:
-  - Manual: `escribir(14)` en consola
-  - Incluye automáticamente backup de datos
+    - Manual: `escribir(14)` en consola
+    - Incluye automáticamente backup de datos
 
 ## 🚀 Cómo Usar
 
 ### Desde el Menú Interactivo
 
 ```javascript
-menuComandos()    // Abrir menú
-escribir(13)      // Backup de datos
-escribir(14)      // Backup completo del sistema
+menuComandos(); // Abrir menú
+escribir(13); // Backup de datos
+escribir(14); // Backup completo del sistema
 ```
 
 ### Estructura de Archivos Generados
@@ -90,5 +90,6 @@ sistema/
 2. Abrir `index.html` en navegador
 
 ---
-*Sistema de Fichajes - Mi Casita de Patch*  
-*Backup System v1.0*
+
+_Sistema de Fichajes - Mi Casita de Patch_  
+_Backup System v1.0_

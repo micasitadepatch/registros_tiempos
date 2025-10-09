@@ -1,0 +1,26 @@
+# Archivos y directorios ignorados por Git
+
+# Variables de entorno
+.env
+.env.example
+.venv
+
+# Dependencias de Node
+node_modules/
+
+# Archivos de base de datos
+.db
+
+# Logs
+*.log
+
+# Directorios de IDE (IntelliJ/WebStorm/PyCharm)
+.idea/
+
+# Archivos de sistema operativo
+.DS_Store
+thumbs.db
+
+# Archivos de compilación o temporales
+build/
+dist/

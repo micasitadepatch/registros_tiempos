@@ -26,7 +26,8 @@ router.get('/data/:file', (req, res) => {
         return res.json({});
     }
     fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) return res.status(500).json({ error: 'Error leyendo archivo' });
+        if (err)
+            return res.status(500).json({ error: 'Error leyendo archivo' });
         try {
             res.json(JSON.parse(data));
         } catch {
@@ -40,8 +41,9 @@ router.post('/data/:file', (req, res) => {
     ensureDataDir();
     const file = req.params.file;
     const filePath = path.join(DATA_DIR, file + '.json');
-    fs.writeFile(filePath, JSON.stringify(req.body, null, 2), err => {
-        if (err) return res.status(500).json({ error: 'Error guardando archivo' });
+    fs.writeFile(filePath, JSON.stringify(req.body, null, 2), (err) => {
+        if (err)
+            return res.status(500).json({ error: 'Error guardando archivo' });
         res.json({ ok: true });
     });
 });
