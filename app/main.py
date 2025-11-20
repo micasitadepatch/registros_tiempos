@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from . import models, database
 from .auth import router as auth_router, get_password_hash
 from .fichajes import router as fichajes_router
@@ -27,7 +27,7 @@ def root():
     return {"message": "API FastAPI funcionando"}
 
 @app.post("/seed")
-def seed_db(secret: str):
+def seed_db(secret: str = Query(...)):
     # Protege el endpoint con una clave secreta simple
     if secret != "micasitaseed2025":
         return {"error": "No autorizado"}
