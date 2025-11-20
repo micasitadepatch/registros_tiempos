@@ -1,0 +1,38 @@
+.editar-fichajes {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #f8e6ee;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #c23a5c22;
+}
+.editar-fichajes ul {
+  list-style: none;
+  padding: 0;
+}
+.editar-fichajes li {
+  margin-bottom: 0.7rem;
+}
+.editar-fichajes select {
+  padding: 0.3rem;
+  border: 1px solid #c23a5c;
+  border-radius: 6px;
+}
+.editar-fichajes button {
+  background: #c23a5c;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+.editar-fichajes .error {
+  color: red;
+  font-size: 0.95rem;
+}
+.editar-fichajes .success {
+  color: green;
+  font-size: 0.95rem;
+}
+

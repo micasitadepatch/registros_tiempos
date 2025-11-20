@@ -1,0 +1,272 @@
+/* Estilos elegantes para la tabla de fichajes */
+body, html {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  position: relative;
+  background: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background: url('./tela-industria-textil.PNG') center center no-repeat;
+  background-size: cover;
+  opacity: 0.28;
+  pointer-events: none;
+}
+body::before {
+  content: none;
+}
+.main-menu, .fichajes-list, .dashboard, .crear-empleado, .fichaje-manual, .editar-fichajes, .header, .users-list, .exportar-datos, .imprimir-informe {
+  /* Se restauran los fondos y sombras eliminando la transparencia forzada */
+}
+.fichajes-list {
+  background: #f8e6ee;
+  box-shadow: 0 2px 8px #c23a5c22;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.fichajes-list h2, .fichajes-list h3 {
+  text-align: center;
+}
+.fichajes-list table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 100%;
+}
+.fichajes-list th, .fichajes-list td {
+  /* Se restauran los fondos y estilos originales de las celdas */
+  border: 1px solid #c23a5c;
+  padding: 8px 12px;
+  text-align: center;
+  color: #2e8b57;
+  word-break: break-word;
+  background: #fff;
+}
+.fichajes-list th {
+  background: #c23a5c;
+  color: #fff !important;
+  font-weight: bold;
+}
+.fichajes-list tr:nth-child(even) {
+  /* Se restauran los fondos alternos originales */
+  background: #fbeaf2;
+}
+.fichajes-list .entrada {
+  color: #2e8b57;
+  font-weight: bold;
+}
+.fichajes-list .salida {
+  color: #c23a5c !important;
+  font-weight: bold;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin: 0 4px;
+  color: #c23a5c;
+  transition: color 0.2s;
+}
+.icon-btn:hover {
+  color: #2e8b57;
+}
+.verde-titulo {
+  color: #2e8b57;
+  font-weight: bold;
+  text-align: center;
+}
+.selected-row {
+  background: #d2f5e3 !important;
+  box-shadow: 0 0 4px #2e8b5744;
+}
+.App {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.dashboard {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.main-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 24px auto 32px auto;
+  width: 100vw;
+  max-width: 700px;
+  box-sizing: border-box;
+}
+.main-menu button,
+.export-btn,
+.print-btn {
+  flex: 1 1 180px;
+  min-width: 160px;
+  max-width: 220px;
+  height: 48px;
+  background: #fff;
+  color: #c23a5c;
+  border: 2px solid #c23a5c;
+  border-radius: 8px;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px #c23a5c22;
+}
+.main-menu button svg,
+.export-btn svg,
+.print-btn svg {
+  font-size: 1.1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+.main-menu button:hover,
+.export-btn:hover,
+.print-btn:hover {
+  background: #c23a5c;
+  color: #fff;
+  border: 2px solid #c23a5c;
+}
+.export-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 18px 0;
+}
+.export-options button {
+  background: #fff;
+  color: #c23a5c;
+  border: 2px solid #c23a5c;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 8px #c23a5c22, 0 0 0 2px #fff inset;
+  margin: 0 8px 12px 8px;
+  min-width: 140px;
+  justify-content: center;
+}
+.export-options button:hover {
+  background: #c23a5c;
+  color: #fff;
+  border: 2px solid #c23a5c;
+  box-shadow: 0 4px 16px #c23a5c44;
+}
+.export-options button svg {
+  font-size: 1.2em;
+  margin-right: 6px;
+}
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+}
+.perfil-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 1.5rem;
+}
+.perfil-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #c23a5c;
+  background: #fff;
+  box-shadow: 0 2px 8px #c23a5c22;
+}
+.cambiar-usuario-btn {
+  background: #fff;
+  color: #c23a5c;
+  border: 2px solid #c23a5c;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px #c23a5c22;
+}
+.cambiar-usuario-btn:hover {
+  background: #c23a5c;
+  color: #fff;
+  border: 2px solid #c23a5c;
+}
+@media (max-width: 700px) {
+  .fichajes-list {
+    padding: 0.5rem;
+    border-radius: 6px;
+  }
+  .fichajes-list table {
+    font-size: 0.95rem;
+    min-width: 220px;
+  }
+  .fichajes-list th, .fichajes-list td {
+    padding: 6px 4px;
+  }
+  .main-menu {
+    gap: 8px;
+    max-width: 100vw;
+  }
+  .main-menu button {
+    min-width: 120px;
+    font-size: 0.98rem;
+    padding: 10px 0;
+  }
+}
+@media (max-width: 480px) {
+  .fichajes-list table, .fichajes-list th, .fichajes-list td {
+    font-size: 0.85rem;
+    padding: 4px 2px;
+  }
+  .fichajes-list {
+    padding: 0.2rem;
+  }
+  .main-menu {
+    gap: 4px;
+  }
+  .main-menu button {
+    min-width: 90px;
+    font-size: 0.92rem;
+    padding: 8px 0;
+  }
+}

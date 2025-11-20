@@ -1,0 +1,33 @@
+.crear-empleado {
+  max-width: 350px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #f8e6ee;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #c23a5c22;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.crear-empleado input, .crear-empleado select {
+  padding: 0.5rem;
+  border: 1px solid #c23a5c;
+  border-radius: 6px;
+}
+.crear-empleado button {
+  background: #c23a5c;
+  color: #fff;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.crear-empleado .error {
+  color: red;
+  font-size: 0.95rem;
+}
+.crear-empleado .success {
+  color: green;
+  font-size: 0.95rem;
+}
+
