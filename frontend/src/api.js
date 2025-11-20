@@ -1,5 +1,5 @@
 // API helper for FastAPI backend
-const API_URL = 'http://localhost:8000';
+const API_URL = 'https://registros-tiempos.onrender.com';
 
 export async function login(username, password) {
   const res = await fetch(`${API_URL}/auth/login`, {
