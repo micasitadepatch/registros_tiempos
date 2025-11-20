@@ -28,28 +28,29 @@ def root():
 
 @app.post("/seed")
 def seed_db(secret: str = Query(...)):
-    # Protege el endpoint con una clave secreta simple
-    if secret != "micasitaseed2025":
-        return {"error": "No autorizado"}
-    db = SessionLocal()
-    # Usuarios iniciales
-    usuarios = [
-        {"username": "eva", "name": "Eva Huercano", "password": "0909", "role": "admin", "schedule": "10:00-14:00"},
-        {"username": "admin", "name": "Administrador", "password": "0909", "role": "admin", "schedule": "10:00-14:00"},
-        {"username": "asera", "name": "Asera Jimenez", "password": "1234", "role": "user", "schedule": "16:00-20:00"}
-    ]
-    creados = []
-    for u in usuarios:
-        if not db.query(User).filter_by(username=u["username"]).first():
-            user = User(
-                username=u["username"],
-                name=u["name"],
-                password_hash=get_password_hash(u["password"]),
-                role=u["role"],
-                schedule=u["schedule"]
-            )
-            db.add(user)
-            creados.append(u["username"])
-    db.commit()
-    db.close()
-    return {"ok": True, "creados": creados}
+    try:
+        if secret != "micasitaseed2025":
+            return {"error": "No autorizado"}
+        db = SessionLocal()
+        usuarios = [
+            {"username": "eva", "name": "Eva Huercano", "password": "0909", "role": "admin", "schedule": "10:00-14:00"},
+            {"username": "admin", "name": "Administrador", "password": "0909", "role": "admin", "schedule": "10:00-14:00"},
+            {"username": "asera", "name": "Asera Jimenez", "password": "1234", "role": "user", "schedule": "16:00-20:00"}
+        ]
+        creados = []
+        for u in usuarios:
+            if not db.query(User).filter_by(username=u["username"]).first():
+                user = User(
+                    username=u["username"],
+                    name=u["name"],
+                    password_hash=get_password_hash(u["password"]),
+                    role=u["role"],
+                    schedule=u["schedule"]
+                )
+                db.add(user)
+                creados.append(u["username"])
+        db.commit()
+        db.close()
+        return {"ok": True, "creados": creados}
+    except Exception as e:
+        return {"error": str(e)}
