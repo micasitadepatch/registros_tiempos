@@ -1,26 +1,19 @@
-# Archivos y directorios ignorados por Git
+# Entorno Python
+__pycache__/
+.venv/
+*.pyc
+*.pyo
+*.pyd
 
-# Variables de entorno
-.env
-.env.example
-.venv
+# SQLite
+fichajes.db
 
-# Dependencias de Node
+# Node/JS
 node_modules/
+package-lock.json
+npm-debug.log
 
-# Archivos de base de datos
-.db
-
-# Logs
-*.log
-
-# Directorios de IDE (IntelliJ/WebStorm/PyCharm)
-.idea/
-
-# Archivos de sistema operativo
+# Otros
 .DS_Store
-thumbs.db
+.env
 
-# Archivos de compilación o temporales
-build/
-dist/

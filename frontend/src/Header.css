@@ -1,0 +1,22 @@
+.main-header {
+  background: #f8e6ee;
+  text-align: center;
+  padding: 2rem 1rem 1rem 1rem;
+  border-bottom: 2px solid #c23a5c;
+}
+.logo {
+  width: 80px;
+  margin-bottom: 0.5rem;
+}
+h1 {
+  color: #c23a5c;
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  margin: 0.5rem 0;
+}
+.subtitle {
+  color: #c23a5c;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+}
+
