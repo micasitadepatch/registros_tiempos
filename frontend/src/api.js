@@ -1,5 +1,11 @@
 // API helper for FastAPI backend
-const API_URL = 'https://registros-tiempos.onrender.com';
+
+// --- DYNAMIC API URL ---
+// This will use localhost for development and the Render URL for production.
+const API_URL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:8000'
+  : 'https://registros-tiempos.onrender.com';
+// -----------------------
 
 export async function login(username, password) {
   const res = await fetch(`${API_URL}/auth/login`, {

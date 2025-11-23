@@ -10,13 +10,22 @@ from .models import User
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
+
+# --- CORS CONFIGURATION FIX ---
+# Define the list of allowed origins
+origins = [
+    "http://localhost:3000",  # Your local frontend
+    "https://registros-tiempos-1.onrender.com" # Your deployed frontend
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,  # Use the specific list of origins
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+# -----------------------------
 
 app.include_router(auth_router)
 app.include_router(fichajes_router)
