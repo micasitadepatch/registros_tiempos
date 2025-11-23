@@ -25,7 +25,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         name=user.name,
         password_hash=hashed_password,
         role=user.role,
-        schedule=user.schedule
+        schedule=user.schedule,
+        auto_fichaje=user.auto_fichaje  # <-- ARREGLO AÑADIDO AQUÍ
     )
     db.add(new_user)
     db.commit()
@@ -56,6 +57,8 @@ def update_user(user_id: int, user: schemas.UserCreate, db: Session = Depends(ge
     db_user.name = user.name
     db_user.role = user.role
     db_user.password_hash = get_password_hash(user.password)
+    db_user.schedule = user.schedule
+    db_user.auto_fichaje = user.auto_fichaje
     db.commit()
     db.refresh(db_user)
     return db_user
