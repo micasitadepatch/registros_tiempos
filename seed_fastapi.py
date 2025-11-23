@@ -1,8 +1,11 @@
-from app.database import SessionLocal
-from app.models import User
+from app.database import SessionLocal, engine
+from app.models import User, Base
 from app.auth import get_password_hash
 
 def seed_users():
+    # Create tables
+    Base.metadata.create_all(bind=engine)
+
     db = SessionLocal()
     users = [
         {"username": "eva", "name": "Eva Huercano", "password": "0909", "role": "admin"},
@@ -25,4 +28,3 @@ def seed_users():
 if __name__ == "__main__":
     seed_users()
     print("Usuarios de ejemplo insertados correctamente.")
-
