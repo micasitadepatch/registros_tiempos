@@ -5,6 +5,11 @@ from jose import jwt, JWTError
 from datetime import datetime, timedelta
 from . import models, schemas
 from .database import SessionLocal
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 SECRET_KEY = "supersecretkey"
 ALGORITHM = "HS256"
@@ -34,8 +39,23 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 @router.post("/login")
 def login(data: schemas.LoginRequest, db: Session = Depends(get_db)):
+    logger.info(f"--- LOGIN ATTEMPT: User '{data.username}' ---")
+
     user = db.query(models.User).filter(models.User.username == data.username).first()
-    if not user or not verify_password(data.password, user.password_hash):
+
+    if not user:
+        logger.warning("--- RESULT: User not found in database. ---")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales incorrectas")
+
+    logger.info(f"--- DEBUG: User '{user.username}' found in DB. ---")
+
+    is_password_correct = verify_password(data.password, user.password_hash)
+    logger.info(f"--- DEBUG: Password verification result for '{data.username}': {is_password_correct} ---")
+
+    if not is_password_correct:
+        logger.warning("--- RESULT: Password verification failed. ---")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales incorrectas")
+
+    logger.info("--- RESULT: Login successful. Creating token. ---")
     access_token = create_access_token({"sub": user.username})
     return {"access_token": access_token, "token_type": "bearer", "user": schemas.UserOut.from_orm(user)}
