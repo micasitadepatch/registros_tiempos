@@ -8,9 +8,9 @@ def seed_users():
 
     db = SessionLocal()
     users = [
-        {"username": "eva", "name": "Eva Huercano", "password": "0909", "role": "admin"},
-        {"username": "admin", "name": "Administrador", "password": "0909", "role": "admin"},
-        {"username": "asera", "name": "Asera Jimenez", "password": "1234", "role": "user"},
+        {"username": "eva", "name": "Eva Huercano", "password": "0909", "role": "admin", "schedule": "10:00-14:00", "auto_fichaje": 1},
+        {"username": "admin", "name": "Administrador", "password": "0909", "role": "admin", "schedule": "10:00-14:00", "auto_fichaje": 1},
+        {"username": "asera", "name": "Asera Jimenez", "password": "1234", "role": "user", "schedule": "16:00-20:00", "auto_fichaje": 0},
     ]
     for u in users:
         exists = db.query(User).filter(User.username == u["username"]).first()
@@ -19,7 +19,9 @@ def seed_users():
                 username=u["username"],
                 name=u["name"],
                 password_hash=get_password_hash(u["password"]),
-                role=u["role"]
+                role=u["role"],
+                schedule=u["schedule"],
+                auto_fichaje=u["auto_fichaje"]
             )
             db.add(user)
     db.commit()
