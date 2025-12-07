@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaTrash, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import './FichajesList.css';
+import { API_URL } from './api'; // <-- IMPORTANTE: Usar la URL centralizada
 
 export default function TodosFichajes({ token }) {
   const [fichajes, setFichajes] = useState([]);
@@ -13,7 +14,7 @@ export default function TodosFichajes({ token }) {
 
   useEffect(() => {
     // Obtener todos los empleados
-    fetch('http://localhost:8000/users', {
+    fetch(`${API_URL}/users`, { // <-- CORREGIDO
       headers: { 'Authorization': `Bearer ${token}` },
       credentials: 'include',
       mode: 'cors'
@@ -25,7 +26,7 @@ export default function TodosFichajes({ token }) {
 
   useEffect(() => {
     // Obtener todos los fichajes
-    fetch('http://localhost:8000/fichajes', {
+    fetch(`${API_URL}/fichajes`, { // <-- CORREGIDO
       headers: { 'Authorization': `Bearer ${token}` },
       credentials: 'include',
       mode: 'cors'
@@ -60,7 +61,7 @@ export default function TodosFichajes({ token }) {
     setError('');
     setEditSuccess('');
     try {
-      const res = await fetch(`http://localhost:8000/fichajes/${id}`, {
+      const res = await fetch(`${API_URL}/fichajes/${id}`, { // <-- CORREGIDO
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include',
@@ -84,7 +85,7 @@ export default function TodosFichajes({ token }) {
     setError('');
     setEditSuccess('');
     try {
-      const res = await fetch(`http://localhost:8000/fichajes/${id}`, {
+      const res = await fetch(`${API_URL}/fichajes/${id}`, { // <-- CORREGIDO
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

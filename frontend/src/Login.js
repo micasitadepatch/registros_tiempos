@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './FichajesList.css';
+import { API_URL } from './api'; // <-- CORREGIDO
 
 export default function Login({ onLogin, error }) {
   const [user, setUser] = useState('');
@@ -7,7 +8,8 @@ export default function Login({ onLogin, error }) {
   const [usersList, setUsersList] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/users')
+    // Esta llamada es opcional y podría eliminarse si no se usa `usersList`
+    fetch(`${API_URL}/users`) // <-- CORREGIDO
       .then(res => res.json())
       .then(data => setUsersList(data))
       .catch(() => setUsersList([]));

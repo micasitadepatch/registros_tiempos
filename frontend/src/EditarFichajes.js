@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import './FichajesList.css';
+import { API_URL } from './api'; // <-- CORREGIDO
 
 export default function EditarFichajes({ token }) {
   const [fichajes, setFichajes] = useState([]);
@@ -10,7 +11,7 @@ export default function EditarFichajes({ token }) {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000/fichajes', {
+    fetch(`${API_URL}/fichajes`, { // <-- CORREGIDO
       headers: { 'Authorization': `Bearer ${token}` },
       credentials: 'include',
       mode: 'cors'
@@ -31,7 +32,7 @@ export default function EditarFichajes({ token }) {
     setError('');
     setSuccess('');
     try {
-      const res = await fetch(`http://localhost:8000/fichajes/${id}`, {
+      const res = await fetch(`${API_URL}/fichajes/${id}`, { // <-- CORREGIDO
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

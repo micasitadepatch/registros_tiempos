@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './FichajesList.css';
-
-const API_URL = 'http://localhost:8000';
+import { API_URL } from './api'; // <-- CORREGIDO: Importar la URL correcta
 
 export default function CrearEmpleado({ token, onCreated }) {
   const [username, setUsername] = useState('');
@@ -22,7 +21,7 @@ export default function CrearEmpleado({ token, onCreated }) {
       .then(res => res.json())
       .then(setUsers)
       .catch(() => setUsers([]));
-  }, [token]);
+  }, [token, onCreated]); // Actualizar lista cuando se crea un nuevo usuario
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -39,7 +38,7 @@ export default function CrearEmpleado({ token, onCreated }) {
     });
     if (res.ok) {
       setUsername(''); setName(''); setPassword(''); setRole('user'); setSchedule('10:00-14:00'); setAutoFichaje(true);
-      onCreated();
+      onCreated(); // Llamar a la función para refrescar la lista principal
     } else {
       const data = await res.json();
       setError(data.detail || 'Error al crear usuario');

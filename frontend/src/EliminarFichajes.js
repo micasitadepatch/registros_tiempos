@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import './FichajesList.css';
+import { API_URL } from './api'; // <-- CORREGIDO
 
 export default function EliminarFichajes({ token }) {
   const [fichajes, setFichajes] = useState([]);
@@ -8,7 +9,7 @@ export default function EliminarFichajes({ token }) {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000/fichajes', {
+    fetch(`${API_URL}/fichajes`, { // <-- CORREGIDO
       headers: { 'Authorization': `Bearer ${token}` },
       credentials: 'include',
       mode: 'cors'
@@ -22,7 +23,7 @@ export default function EliminarFichajes({ token }) {
     setError('');
     setSuccess('');
     try {
-      const res = await fetch(`http://localhost:8000/fichajes/${id}`, {
+      const res = await fetch(`${API_URL}/fichajes/${id}`, { // <-- CORREGIDO
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include',

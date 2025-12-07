@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './FichajeManual.css';
+import { API_URL } from './api'; // <-- CORREGIDO: Importar la URL correcta
 
 function getDatesInRange(start, end) {
   const dates = [];
@@ -29,7 +30,7 @@ export default function FichajeManual({ token, user, onFichaje }) {
     // Obtener fichajes existentes del usuario en el rango
     let existentes = [];
     try {
-      const res = await fetch(`http://localhost:8000/fichajes/by_user/${user.id}`, {
+      const res = await fetch(`${API_URL}/fichajes/by_user/${user.id}`, { // <-- CORREGIDO
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include',
         mode: 'cors'
@@ -47,7 +48,7 @@ export default function FichajeManual({ token, user, onFichaje }) {
         continue;
       }
       try {
-        const res = await fetch('http://localhost:8000/fichajes', {
+        const res = await fetch(`${API_URL}/fichajes`, { // <-- CORREGIDO
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Login from './Login';
-import { getUsers, login } from './api';
+import { getUsers, login, getFichajesByUser } from './api'; // <-- CORREGIDO: Importar getFichajesByUser
 import Header from './Header';
 import Menu from './Menu';
 import CrearEmpleado from './CrearEmpleado';
@@ -15,15 +15,7 @@ import TodosFichajes from './TodosFichajes';
 import './FichajesList.css';
 import Toast from './Toast';
 
-async function getFichajesByUser(token, userId) {
-  const res = await fetch(`http://localhost:8000/fichajes/by_user/${userId}`, {
-    headers: { 'Authorization': `Bearer ${token}` },
-    credentials: 'include',
-    mode: 'cors'
-  });
-  if (!res.ok) throw new Error('Error al obtener fichajes');
-  return await res.json();
-}
+// La función getFichajesByUser se ha movido a api.js
 
 function Dashboard({ token, user, onChangeUser }) {
   const [users, setUsers] = useState([]);
@@ -35,7 +27,7 @@ function Dashboard({ token, user, onChangeUser }) {
 
   React.useEffect(() => {
     if (action === 'fichajes') {
-      getFichajesByUser(token, user.id).then(setFichajes).catch(() => setFichajes([]));
+      getFichajesByUser(token, user.id).then(setFichajes).catch(() => setFichajes([])); // <-- CORREGIDO: Usa la función importada
     }
   }, [action, token, user]);
 

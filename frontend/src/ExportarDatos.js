@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import { FaFileCsv, FaFilePdf, FaFileAlt, FaFileWord } from 'react-icons/fa';
+import { API_URL } from './api'; // <-- CORREGIDO
 
 export default function ExportarDatos({ token, user, todos }) {
   const [fichajes, setFichajes] = useState([]);
@@ -9,7 +10,7 @@ export default function ExportarDatos({ token, user, todos }) {
 
   useEffect(() => {
     if (todos) {
-      fetch('http://localhost:8000/fichajes', {
+      fetch(`${API_URL}/fichajes`, { // <-- CORREGIDO
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include',
         mode: 'cors'
@@ -18,7 +19,7 @@ export default function ExportarDatos({ token, user, todos }) {
         .then(setFichajes)
         .catch(() => setFichajes([]));
     } else {
-      fetch(`http://localhost:8000/fichajes/by_user/${user.id}`, {
+      fetch(`${API_URL}/fichajes/by_user/${user.id}`, { // <-- CORREGIDO
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include',
         mode: 'cors'

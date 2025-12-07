@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaPrint } from 'react-icons/fa';
 import jsPDF from 'jspdf';
+import { API_URL } from './api'; // <-- CORREGIDO
 
 export default function ImprimirInforme({ token, user, todos }) {
   const [fichajes, setFichajes] = useState([]);
@@ -11,7 +12,7 @@ export default function ImprimirInforme({ token, user, todos }) {
 
   useEffect(() => {
     if (todos) {
-      fetch('http://localhost:8000/fichajes', {
+      fetch(`${API_URL}/fichajes`, { // <-- CORREGIDO
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include',
         mode: 'cors'
@@ -20,7 +21,7 @@ export default function ImprimirInforme({ token, user, todos }) {
         .then(setFichajes)
         .catch(() => setFichajes([]));
     } else {
-      fetch(`http://localhost:8000/fichajes/by_user/${user.id}`, {
+      fetch(`${API_URL}/fichajes/by_user/${user.id}`, { // <-- CORREGIDO
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include',
         mode: 'cors'
