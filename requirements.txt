@@ -6,3 +6,5 @@ passlib==1.7.4
 SQLAlchemy
 pydantic
 psycopg2-binary
+PyMySQL
+python-dotenv

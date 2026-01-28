@@ -1,12 +1,17 @@
-export const API_URL = 'https://control-horario-2e2a.onrender.com';
+// URL del backend en Dynahosting
+export const API_URL = 'https://www.micasitadepatch.com/api_regtp';
 
 export async function login(username, password) {
-  const res = await fetch(`${API_URL}/token`, {
+  const res = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ username, password })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
   });
-  if (!res.ok) throw new Error('Credenciales incorrectas');
+  if (!res.ok) {
+    // Intenta leer el detalle del error del backend para más información
+    const errorDetail = await res.json().catch(() => ({ detail: 'Credenciales incorrectas' }));
+    throw new Error(errorDetail.detail);
+  }
   return await res.json();
 }
 
@@ -20,7 +25,6 @@ export async function getUsers(token) {
   return await res.json();
 }
 
-// <-- AÑADIDA NUEVA FUNCIÓN
 export async function getFichajesByUser(token, userId) {
   const res = await fetch(`${API_URL}/fichajes/by_user/${userId}`, {
     headers: { 'Authorization': `Bearer ${token}` },

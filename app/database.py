@@ -2,11 +2,15 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv # Importar load_dotenv
+
+# Cargar variables de entorno desde .env
+load_dotenv()
 
 # --- DATABASE URL CONFIGURATION ---
 SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./fichajes.db")
 
-# FIX for Render's PostgreSQL URL format
+# FIX for Render's PostgreSQL URL format (esto ya no es necesario si solo usas MySQL en Dynahosting, pero lo mantengo por si acaso)
 if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
     SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgres://", "postgresql://", 1)
 # ---------------------------------

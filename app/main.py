@@ -71,7 +71,8 @@ app = FastAPI(lifespan=lifespan)
 # --- Configuración de CORS ---
 origins = [
     "http://localhost:3000",
-    "https://registros-tiempos-1.onrender.com"
+    "https://registros-tiempos-1.onrender.com",
+    "https://fichajes.micasitadepatch.com"
 ]
 
 app.add_middleware(
