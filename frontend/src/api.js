@@ -1,5 +1,5 @@
-// URL del backend en Dynahosting
-export const API_URL = 'https://www.micasitadepatch.com/api_regtp';
+// URL del backend en HTTPS (Correcto para producción)
+export const API_URL = 'https://apiregtp.micasitadepatch.com';
 
 export async function login(username, password) {
   const res = await fetch(`${API_URL}/auth/login`, {
@@ -8,7 +8,6 @@ export async function login(username, password) {
     body: JSON.stringify({ username, password })
   });
   if (!res.ok) {
-    // Intenta leer el detalle del error del backend para más información
     const errorDetail = await res.json().catch(() => ({ detail: 'Credenciales incorrectas' }));
     throw new Error(errorDetail.detail);
   }

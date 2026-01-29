@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Path, Body
 from sqlalchemy.orm import Session
 from typing import List
-from . import models, schemas
-from .database import SessionLocal
-from .auth import get_password_hash
+# CAMBIO: Importaciones absolutas
+from app import models, schemas
+from app.database import SessionLocal
+from app.auth import get_password_hash
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -26,7 +27,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         password_hash=hashed_password,
         role=user.role,
         schedule=user.schedule,
-        auto_fichaje=user.auto_fichaje  # <-- ARREGLO AÑADIDO AQUÍ
+        auto_fichaje=user.auto_fichaje
     )
     db.add(new_user)
     db.commit()

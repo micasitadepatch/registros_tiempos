@@ -53,6 +53,7 @@ export default function Login({ onLogin, error }) {
         }}>
           <input
             type="text"
+            name="username" // Atributo añadido
             placeholder="Usuario"
             value={user}
             onChange={e => setUser(e.target.value)}
@@ -68,6 +69,7 @@ export default function Login({ onLogin, error }) {
           />
           <input
             type="password"
+            name="password" // Atributo añadido
             placeholder="Contraseña"
             value={pass}
             onChange={e => setPass(e.target.value)}

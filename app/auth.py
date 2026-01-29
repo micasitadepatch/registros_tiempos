@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
-from . import models, schemas
-from .database import SessionLocal
+# CAMBIO: Importaciones absolutas
+from app import models, schemas
+from app.database import SessionLocal
 import logging
 
 # Configure logging
@@ -14,7 +15,9 @@ logger = logging.getLogger(__name__)
 SECRET_KEY = "supersecretkey"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Usamos pbkdf2_sha256 para evitar problemas de compatibilidad con bcrypt en el servidor
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
